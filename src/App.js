@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {TodoList} from "./TodoList";
+import {TodoList} from "./components/TodoList";
 import {Login} from "./components/Login"
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -9,7 +9,13 @@ import moment from "moment";
 
 
 
-
+const LoginView = () => (
+    <div>
+        <Login/>
+        <br/>
+        <br/>
+    </div>
+);
 
 
 class App extends Component {
