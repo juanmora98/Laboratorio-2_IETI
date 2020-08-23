@@ -1,12 +1,18 @@
 import React from 'react';
 import {TodoList} from './TodoList';
+import moment from "moment";
+import MomentUtils from '@date-io/moment';
+import TextField from '@material-ui/core/TextField';
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import Grid from '@material-ui/core/Grid';
 
 export class TodoApp extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { items: [], text: '' , priority: "", dueDate: ''};
+      this.state = { items: [], text: '' , priority: "", dueDate: '', dueDate: moment()};
       this.handleChange = this.handleChange.bind(this);
       this.handlePriority = this.handlePriority.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
@@ -18,32 +24,48 @@ export class TodoApp extends React.Component {
 
             <form onSubmit={this.handleSubmit}>
 
-            <label htmlFor="new-todo">
-              Bienvenido, que tarea se debe realizar?
-            </label>
-
-            <input
-              id="todo nuevo"
-              onChange={this.handleChange}
+            <TextField
+              id="Text"
+              label="Bienvenido, que tarea se debe realizar?"
+              onChange={this.handleTextChange}
               value={this.state.text}
+              margin="normal"
+              variant="outlined"
             />
 
             <br/>
-
-            <label htmlFor="priority-todo">
-              Cual es la prioridad de la actividad?
-            </label>
             
-            <input
-                id="prioridad del todo"
-                onChange={this.handlePriority}
-                value={this.state.priority}
+            <TextField
+              id="Priority"
+              label="Cual es la prioridad de la actividad?"
+              onChange={this.handlePriorityChange}
+              value={this.state.priority}
+              margin="normal"
+              variant="outlined"
             />
 
             <br/>
+
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <Grid container justify="space-around">
+                  <KeyboardDatePicker
+                      
+                      variant="inline"
+                      format="DD/MM/YYYY"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Date picker inline"
+                      value={this.state.dueDate}
+                      onChange={this.handleDateChange}
+                      KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                      }}
+                  />
+              </Grid>
+            </MuiPickersUtilsProvider>
 
             <button>
-                Send #{this.state.items.length + 1}
+              Add #{this.state.items.length + 1}
             </button>
 
             </form>
@@ -60,7 +82,7 @@ export class TodoApp extends React.Component {
   
     handleSubmit(e) {
       e.preventDefault();
-      if (!this.state.text.length) {
+      if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate){
         return;
       }
       const newItem = {
@@ -82,5 +104,11 @@ export class TodoApp extends React.Component {
         });
 
     }
+
+    handleDateChange(date) {
+      this.setState({
+          dueDate: date
+      });
+  }
 
   }

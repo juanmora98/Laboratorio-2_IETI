@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {TodoList} from "./components/TodoList";
-import {Login} from "./components/Login"
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
+import {Login} from "./components/Login";
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ForumIcon from '@material-ui/icons/Forum';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import {TodoApp} from "./components/TodoApp";
 
 
 
@@ -14,6 +18,15 @@ const LoginView = () => (
         <Login/>
         <br/>
         <br/>
+    </div>
+);
+
+
+const TodoView = () => (
+    <div>
+        <br/>
+        <br/>
+        <TodoApp />
     </div>
 );
 
@@ -33,60 +46,23 @@ class App extends Component {
     render() {
 
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">TODO React App</h1>
-                </header>
-
-                <br/>
-                <Login/>
-                <br/>
-
-
-
-                <form onSubmit={this.handleSubmit} className="todo-form">
-                    <h3>New TODO</h3>
-                    <label htmlFor="text" className="right-margin">
-                        Text:
-                    </label>
-
-                    <input
-                        id="text"
-                        onChange={this.handleTextChange}
-                        value={this.state.text}>
-                    </input>
-
+            <Router>
+                <div className="App">
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo"/>
+                        <h1 className="App-title">TODO React App</h1>
+                    </header>
                     <br/>
-                    <br/>
-                    <label htmlFor="priority" className="right-margin">
-                        Priority:
-                    </label>
-
-                    <input
-                        id="priority"
-                        type="number"
-                        onChange={this.handlePriorityChange}
-                        value={this.state.priority}>
-                    </input>
-                    <br/>
-                    <br/>
-
-                    <DatePicker
-                        id="due-date"
-                        selected={this.state.dueDate}
-                        placeholderText="Due date"
-                        onChange={this.handleDateChange}>
-                    </DatePicker>
-                    <br/>
-                    <button>
-                        Add #{this.state.items.length + 1}
-                    </button>
-                </form>
-                <br/>
-                <br/>
-                <TodoList todoList={this.state.items}/>
-            </div>
+                    <BottomNavigation showLabels className="">
+                        <BottomNavigationAction label="Login" icon={<LockOpenIcon />} component={Link} to="/" />
+                        <BottomNavigationAction label="To Do" icon={<ForumIcon />} component={Link} to="/todo" />
+                    </BottomNavigation>
+                    <div>
+                        <Route exact path="/" component={LoginView}/>
+                        <Route path="/todo" component={TodoView}/>
+                    </div>
+                </div>
+            </Router>
         );
     }
 
