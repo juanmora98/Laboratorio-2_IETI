@@ -54,7 +54,7 @@ export class TodoApp extends React.Component {
                       format="DD/MM/YYYY"
                       margin="normal"
                       id="date-picker-inline"
-                      label="Date picker inline"
+                      label="Fecha"
                       value={this.state.dueDate}
                       onChange={this.handleDateChange}
                       KeyboardButtonProps={{
