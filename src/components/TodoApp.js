@@ -27,7 +27,7 @@ export class TodoApp extends React.Component {
             <TextField
               id="Text"
               label="Bienvenido, que tarea se debe realizar?"
-              onChange={this.handleTextChange}
+              onChange={this.handleChange}
               value={this.state.text}
               margin="normal"
               variant="outlined"
@@ -38,7 +38,7 @@ export class TodoApp extends React.Component {
             <TextField
               id="Priority"
               label="Cual es la prioridad de la actividad?"
-              onChange={this.handlePriorityChange}
+              onChange={this.handlePriority}
               value={this.state.priority}
               margin="normal"
               variant="outlined"
