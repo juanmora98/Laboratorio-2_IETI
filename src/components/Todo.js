@@ -13,7 +13,7 @@ export class Todo extends React.Component {
             <TableRow key={this.props.name}>
                 <TableCell align="center">{this.props.text}</TableCell>
                 <TableCell align="center">{this.props.priority}</TableCell>
-                <TableCell align="center">{this.props.dueDate.format('DD-MM-YYYY')}</TableCell>
+                <TableCell align="center">{this.props.dueDate.format('DD/MM/YYYY')}</TableCell>
             </TableRow>
         );
     }

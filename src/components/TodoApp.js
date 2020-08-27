@@ -7,14 +7,23 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers'
 import Grid from '@material-ui/core/Grid';
 
 export class TodoApp extends React.Component {
+    
+  
     constructor(props) {
       super(props);
-      this.state = { items: [], text: '' , priority: "", dueDate: '', dueDate: moment()};
+      this.state = { items: [], text: '' , priority: "", dueDate: new moment()};
       this.handleChange = this.handleChange.bind(this);
       this.handlePriority = this.handlePriority.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    componentDidMount() {
+      if(!localStorage.getItem('User') && !localStorage.getItem('Password')){
+        window.location.href = "/"
+      }
+    }
+    
   
     render() {
       return (
@@ -46,10 +55,9 @@ export class TodoApp extends React.Component {
 
             <br/>
 
+
             <MuiPickersUtilsProvider utils={MomentUtils}>
-              <Grid container justify="space-around">
-                  <KeyboardDatePicker
-                      
+                  <KeyboardDatePicker  
                       variant="inline"
                       format="DD/MM/YYYY"
                       margin="normal"
@@ -61,8 +69,9 @@ export class TodoApp extends React.Component {
                           'aria-label': 'change date',
                       }}
                   />
-              </Grid>
             </MuiPickersUtilsProvider>
+
+            <br/>
 
             <button>
               Add #{this.state.items.length + 1}
@@ -80,22 +89,7 @@ export class TodoApp extends React.Component {
       this.setState({ text: e.target.value });
     }
   
-    handleSubmit(e) {
-      e.preventDefault();
-      if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate){
-        return;
-      }
-      const newItem = {
-        text: this.state.text,
-        priority: this.state.priority,
-        dueDate: new Date(),
-        id: Date.now()
-      };
-      this.setState(prevState => ({
-        items: prevState.items.concat(newItem),
-        text: ''
-      }));
-    }
+    
 
     handlePriority(e){ 
 
@@ -109,6 +103,24 @@ export class TodoApp extends React.Component {
       this.setState({
           dueDate: date
       });
-  }
+    }
 
-  }
+    handleSubmit(e) {
+      e.preventDefault();
+      if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate){
+        return;
+      }
+      const newItem = {
+        text: this.state.text,
+        priority: this.state.priority,
+        dueDate: this.state.dueDate
+      };
+      this.setState(prevState => ({
+        items: prevState.items.concat(newItem),
+        text: '',
+        priority: '',
+        dueDate: new moment()
+      }));
+    }
+
+}
